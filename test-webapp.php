@@ -1,7 +1,5 @@
 <?php
-// ---------------------------------------------------------------
-// Database connection (local MariaDB/MySQL)
-// ---------------------------------------------------------------
+
 $servername = "localhost";
 $username   = "root";
 $password   = "";
@@ -24,14 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !$conn->connect_error) {
     $GovPosition = $_POST["GovPosition"] ?? "";
     $Location    = $_POST["Location"]    ?? ""; // captured, but never saved (see flaw below)
 
-    // ===============================================================
-    // INTENTIONAL FLAW (for QA testing purposes):
-    // The Location column is completely omitted from BOTH the SQL
-    // string and the bind_param() call below. The form collects
-    // Location and the user sees a success message, but the value is
-    // never stored in the database. Only FirstName, LastName and
-    // GovPosition are inserted.
-    // ===============================================================
+   
     $stmt = $conn->prepare(
         "INSERT INTO main_corrupt_politicians (FirstName, LastName, GovPosition) VALUES (?, ?, ?)"
     );
